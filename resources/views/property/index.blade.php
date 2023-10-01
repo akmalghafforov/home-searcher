@@ -29,22 +29,84 @@
             :default-active="'1'"
             class="el-menu-demo"
             mode="horizontal"
-            @select="handleSelect"
             background-color="#409EFF"
             text-color="#303133"
             active-text-color="#FFFFFF"
     >
-        <el-menu-item index="1">Property Finder</el-menu-item>
+        <el-menu-item index="1" style="font-size: 1.5rem;">Property Finder</el-menu-item>
     </el-menu>
 
-    <el-container style="border: 1px solid #eee">
-        <el-aside width="300px" style="background-color: rgb(238, 241, 246)">
+    <el-container style="border: 1px solid #eee;">
+
+        <el-aside style="border-right: 1px solid grey; padding: 1rem; width: 400px;">
+
+            <el-form
+                    :model="searchForm"
+                    :rules="searchFormRules"
+                    ref="ruleForm"
+                    label-width="120px"
+                    class="demo-ruleForm"
+            >
+
+                <el-form-item label="Name" prop="name">
+                    <el-input v-model="searchForm.name"></el-input>
+                </el-form-item>
+
+                <el-form-item label="Price" prop="price">
+
+                    <el-slider
+                            v-model="searchForm.price"
+                            range
+                            :max="1000000"
+                            :step="1000"
+                    ></el-slider>
+
+                </el-form-item>
+
+                <el-form-item label="Bedrooms count" prop="bedroomsCount">
+                    <el-checkbox-group v-model="searchForm.bedroomsCount">
+                        <el-checkbox label="1" name="type"></el-checkbox>
+                        <el-checkbox label="2" name="type"></el-checkbox>
+                        <el-checkbox label="3" name="type"></el-checkbox>
+                        <el-checkbox label="4" name="type"></el-checkbox>
+                        <el-checkbox label="5" name="type"></el-checkbox>
+                    </el-checkbox-group>
+                </el-form-item>
+
+                <el-form-item label="Bathrooms count" prop="bathroomsCount">
+                    <el-checkbox-group v-model="searchForm.bathroomsCount">
+                        <el-checkbox label="1" name="type"></el-checkbox>
+                        <el-checkbox label="2" name="type"></el-checkbox>
+                        <el-checkbox label="3" name="type"></el-checkbox>
+                    </el-checkbox-group>
+                </el-form-item>
+
+                <el-form-item label="Storyes count" prop="storyesCount">
+                    <el-checkbox-group v-model="searchForm.storyesCount">
+                        <el-checkbox label="1" name="type"></el-checkbox>
+                        <el-checkbox label="2" name="type"></el-checkbox>
+                    </el-checkbox-group>
+                </el-form-item>
+
+                <el-form-item label="Garages count" prop="garagesCount">
+                    <el-checkbox-group v-model="searchForm.garagesCount">
+                        <el-checkbox label="1" name="type"></el-checkbox>
+                        <el-checkbox label="2" name="type"></el-checkbox>
+                    </el-checkbox-group>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button type="primary" @click="search()">Find Property</el-button>
+                    <el-button @click="reset()">Reset</el-button>
+                </el-form-item>
+            </el-form>
 
         </el-aside>
 
         <el-container>
             <el-main>
                 <el-table
+                        v-loading="loading"
                         :data="properties"
                         :empty-text="'No property was found'"
                 >

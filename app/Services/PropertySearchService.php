@@ -13,13 +13,8 @@ class PropertySearchService
 
     public function search(array $searchParams): array
     {
-        $properties = $this->repository->search($searchParams);
+        sleep(2); // just for load demo
 
-        foreach ($properties as &$property) {
-            $property['price'] = '$' . number_format($property['price']);
-            $property['created_at'] = Carbon::parse($property['created_at'])->format('Y-m-d H:i');
-        }
-
-        return $properties;
+        return $this->repository->search($searchParams);
     }
 }

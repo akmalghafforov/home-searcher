@@ -3,6 +3,7 @@
 namespace App\Repositories;
 use App\Models\Property;
 use App\Repositories\Interfaces\PropertyRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 class PropertyRepository implements PropertyRepositoryInterface
 {
@@ -10,7 +11,17 @@ class PropertyRepository implements PropertyRepositoryInterface
     {
         $filter = $searchParams['filter'] ?? [];
 
-        $query = Property::query();
+        $query = Property::query()
+            ->select([
+                'id',
+                'name',
+                DB::raw("CONCAT('$',FORMAT(price,2,'en_US')) as price"),
+                'bedrooms_count',
+                'bathrooms_count',
+                'storeys_count',
+                'garages_count',
+            ])
+        ;
 
         if (isset($filter['name'])) {
             $query->where('name', 'like', "%{$filter['name']}%");
