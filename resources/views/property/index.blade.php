@@ -2,29 +2,12 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <!-- import CSS -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="//unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <style>
-        head, body {
-            margin: 0;
-            padding: 0;
-            font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
-        }
-
-        .el-header {
-            background-color: #B3C0D1;
-            color: #333;
-            line-height: 60px;
-        }
-
-        .el-aside {
-            color: #333;
-        }
-    </style>
 </head>
 <body>
-<div id="app">
 
+<div id="app">
     <el-menu
             :default-active="'1'"
             class="el-menu-demo"
@@ -33,12 +16,12 @@
             text-color="#303133"
             active-text-color="#FFFFFF"
     >
-        <el-menu-item index="1" style="font-size: 1.5rem;">Property Finder</el-menu-item>
+        <el-menu-item index="1" class="el-menu-item">Property Finder</el-menu-item>
     </el-menu>
 
-    <el-container style="border: 1px solid #eee;">
+    <el-container>
 
-        <el-aside style="border-right: 1px solid grey; padding: 1rem; width: 400px;">
+        <el-aside style="overflow: hidden;">
 
             <el-form
                     :model="searchForm"
@@ -57,8 +40,8 @@
                     <el-slider
                             v-model="searchForm.price"
                             range
-                            :max="1000000"
-                            :step="1000"
+                            :max="maxPriceRange"
+                            :step="priceRangeStep"
                     ></el-slider>
 
                 </el-form-item>
@@ -117,12 +100,12 @@
                     <el-table-column prop="bathrooms_count" label="Bathrooms"></el-table-column>
                     <el-table-column prop="storeys_count" label="Storeys"></el-table-column>
                     <el-table-column prop="garages_count" label="Garages"></el-table-column>
-                    <el-table-column prop="created_at" label="Created At"></el-table-column>
                 </el-table>
             </el-main>
         </el-container>
     </el-container>
 </div>
+
 </body>
 
 <script src="//unpkg.com/vue@2/dist/vue.js"></script>

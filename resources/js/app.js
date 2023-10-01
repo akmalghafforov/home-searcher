@@ -1,5 +1,10 @@
 import axios from "axios";
 
+const MIN_PRICE_RANGE = 0;
+const MAX_PRICE_RANGE = 1000000;
+const PRICE_RANGE_STEP = 1000;
+const SEARCH_PROPERTY_ENDPOINT_URL = '/api/property/search';
+
 new Vue({
     el: '#app',
     data: function() {
@@ -8,7 +13,7 @@ new Vue({
             properties: [],
             searchForm: {
                 name: '',
-                price: [0, 1000000],
+                price: [MIN_PRICE_RANGE, MAX_PRICE_RANGE],
                 bedroomsCount: [],
                 bathroomsCount: [],
                 storyesCount: [],
@@ -31,7 +36,9 @@ new Vue({
                 storyesCount: [
                     { type: 'array', required: false, message: 'Please select storyes count', trigger: 'change' }
                 ],
-            }
+            },
+            maxPriceRange: MAX_PRICE_RANGE,
+            priceRangeStep: PRICE_RANGE_STEP,
         }
     },
     mounted: function () {
@@ -44,7 +51,7 @@ new Vue({
         reset() {
             this.searchForm = {
                 name: '',
-                price: [0, 1000000],
+                price: [MIN_PRICE_RANGE, MAX_PRICE_RANGE],
                 bedroomsCount: [],
                 bathroomsCount: [],
                 storyesCount: [],
@@ -54,7 +61,7 @@ new Vue({
         fetchProperties: function () {
             this.loading = true;
             axios
-                .post('/api/property/search', this.preparePayload())
+                .post(SEARCH_PROPERTY_ENDPOINT_URL, this.preparePayload())
                 .then((response) => {
                     this.properties = response['data'];
                     this.loading = false;
